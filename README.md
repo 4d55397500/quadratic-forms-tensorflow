@@ -58,7 +58,7 @@ def linear_kernel(x, c):
     return dot_product(x) + c
 ```
 
-#### Tensor product
+#### Generating more complex quadratic forms
 
 The tensor product for an arbitrary collection of tensors can be computed:
 ```
@@ -82,3 +82,31 @@ def tensor_product(*e):
 
 
 ```
+
+And a general quadratic form `M_abij x_ai x_bj` is expressed:
+```
+def batch_quadratic_form(M, x):
+    """ Return the batch quadratic form M_abij x_ai x_bj"""
+    return tf.tensordot(tf.tensordot(M, x, [[0, 2], [0, 1]]), x, [[0, 1], [0, 1]])
+
+```
+
+Using the above operations, the common diagonal form `x_a^2 + x_b^2 + x_c^2 + ...` is expressed with kronecker deltas/ identity matrices: 
+
+```
+def diagonal_M(batch_size, d):
+    """ M_abij = delta_ab delta_ij """
+    return tensor_product(tf.diag([1.] * batch_size), tf.diag([1.] * d))
+
+```
+
+A slight variation of this that weights the 0th dimension (say a loss function favoring that dimension) is then a modification to the first eigenvalue, geometrically an ellipse rather than a circle:
+
+```
+def biased_diagonal_M(batch_size, d):
+    """ M_abij = delta_ab delta_ij """
+    return tensor_product(tf.diag([1.] * batch_size), tf.diag([5.] + [1.] * (d-1)))
+
+```
+
+

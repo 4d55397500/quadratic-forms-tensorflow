@@ -57,3 +57,28 @@ A linear kernel is `k_ab = x_ai x_ib + c`:
 def linear_kernel(x, c):
     return dot_product(x) + c
 ```
+
+#### Tensor product
+
+The tensor product for an arbitrary collection of tensors can be computed:
+```
+def tensor_product(*e):
+    """ Tensor product of elements """
+    if len(e) == 1:
+        return e
+    elif len(e) == 2:
+        a, b = e
+        r_a = len(a.get_shape().as_list())
+        r_b = len(b.get_shape().as_list())
+        s_a = tf.concat([tf.shape(a), tf.constant([1] * r_b)], axis=0)
+        s_b = tf.concat([tf.constant([1] * r_a), tf.shape(b)], axis=0)
+        a_reshaped = tf.reshape(a, s_a)
+        b_reshaped = tf.reshape(b, s_b)
+        return a_reshaped * b_reshaped
+    prod = e[0]
+    for tensor in e[1:]:
+        prod = tensor_product(prod, tensor)
+    return prod
+
+
+```

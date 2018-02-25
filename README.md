@@ -42,13 +42,18 @@ A kernel `K(x_a, x_b)` is a quadratic form or a function of a quadratic form. Th
 One example is the Gaussian RBF kernel `k_ab = exp(-gamma * (x_a - x_b)^2)` Again the squared difference is expanded, and we make use of the broadcasting property of tf.subtract (smaller arrays are automatically resized to match the larger array in the subtraction):
 
 ```
-def gaussian_rbf_kernel(x):
+def gaussian_rbf_kernel(x, gamma):
     # x_a^2
     norm_squares = tf.reduce_sum(tf.square(x), axis=1) 
     # q_ab = (x_a - x_b)^2 = x_a^2 I_b - 2 x_a x_b + I_a x_b^2, where I_a is a vector of all 1s.
     q = tf.add(tf.subtract(norm_squares, 2 * tf.matmul(x, tf.transpose(x)))), tf.transpose(norm_squares))
-    gamma = 50
     # k_ab = exp(-gamma * q_ab)
     k = tf.exp(-gamma * q)
     return k
+```
+
+A linear kernel is `k_ab = x_ai x_ib + c`:
+```
+def linear_kernel(x, c):
+    return dot_product(x) + c
 ```

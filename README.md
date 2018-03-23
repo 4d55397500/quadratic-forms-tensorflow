@@ -104,7 +104,7 @@ A slight variation of this that weights the 0th dimension (say a loss function f
 
 ```
 def biased_diagonal_M(batch_size, d):
-    """ M_abij = delta_ab delta_ij """
+    """ M_abij = lambda_i delta_ab delta_ij """
     return tensor_product(tf.diag([1.] * batch_size), tf.diag([5.] + [1.] * (d-1)))
 
 ```

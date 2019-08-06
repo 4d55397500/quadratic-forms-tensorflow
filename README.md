@@ -6,7 +6,7 @@ and appear commonly in SVM kernels and loss functions. This wiki presents techni
 
 Alphabetic indices `a,b,c,..` will denote samples, and indices `i,j,k..` will refer to dimensions in the vector space. So, for example, a tensor `x` of shape (batch size, dimension) can be denoted `x_ai`.
 
-Quadratic forms in Tensorflow are then expressions of form `A_ab M_ik x_ai x_bi`. These objects are scalars, and appear commonly as say loss functions. Intermediate contractions can also be meaningful; defining the rank-4 tensor `T_abij := x_ai x_bj` the game is contractions over `T_abij`. Usually such contractions are in diagonal form (symmetric forms can always be diagonalized) but this is not necessary. A common example of such an expression in diagonal form is the pairwise squared difference sum `sum_(a,b) { (x_a - x_b)^2}`; this expression clearly preserves `SO(N)` rotational invariance.
+Quadratic forms in Tensorflow are then expressions of form `A_ab M_ik x_ai x_bi`. These objects are scalars, and appear commonly as say loss functions. Intermediate contractions can also be meaningful; defining the rank-4 tensor `T_abij := x_ai x_bj` the game is contractions over `T_abij`. Usually such contractions are in diagonal form as symmetric forms can always be diagonalized but this is not necessary. A common example of such an expression in diagonal form is the pairwise squared difference sum `sum_(a,b) { (x_a - x_b)^2}`; this expression clearly preserves `SO(N)` rotational invariance.
 
 #### Basic quadratic forms
 
